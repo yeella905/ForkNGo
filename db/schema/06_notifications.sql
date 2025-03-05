@@ -5,5 +5,5 @@ CREATE TABLE notifications (
   order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
   recipients_id INTEGER REFERENCES recipients(id) ON DELETE CASCADE,
   message TEXT,
-  sent_at DATE NOT NULL,
+  sent_at DATE NOT NULL
 );

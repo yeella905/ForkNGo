@@ -6,5 +6,5 @@ CREATE TABLE food_items (
   name VARCHAR(255) NOT NULL,
   description TEXT,
   price INTEGER  NOT NULL DEFAULT 0,
-  image_url VARCHAR(255) NOT NULL,
+  image_url VARCHAR(255) NOT NULL
 );

@@ -5,5 +5,5 @@ CREATE TABLE orders (
   recipients_id INTEGER REFERENCES recipients(id) ON DELETE CASCADE,
   user_selected_pickup_time DATE NOT NULL,
   estimated_pickup_time DATE NOT NULL,
-  actual_pickup_time DATE NOT NULL,
+  actual_pickup_time DATE NOT NULL
 );
