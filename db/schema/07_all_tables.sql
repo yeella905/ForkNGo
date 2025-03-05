@@ -23,16 +23,16 @@ CREATE TABLE food_items (
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  price INTEGER  NOT NULL DEFAULT 0,
+  price DECIMAL(10, 2)  NOT NULL DEFAULT 0.00,
   image_url VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY NOT NULL,
   recipients_id INTEGER REFERENCES recipients(id) ON DELETE CASCADE,
-  user_selected_pickup_time DATE NOT NULL,
-  estimated_pickup_time DATE NOT NULL,
-  actual_pickup_time DATE NOT NULL
+  user_selected_pickup_time TIMESTAMP NOT NULL,
+  estimated_pickup_time TIMESTAMP NOT NULL,
+  actual_pickup_time TIMESTAMP NOT NULL
 );
 
 CREATE TABLE order_items (
@@ -40,9 +40,9 @@ CREATE TABLE order_items (
   orders_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
   food_items_id INTEGER REFERENCES food_items(id) ON DELETE CASCADE,
   quantity INTEGER  NOT NULL DEFAULT 0,
-  price NUMERIC(10, 2) NOT NULL DEFAULT 0,
-  tax NUMERIC(10, 2) NOT NULL DEFAULT 0,
-  special_request VARCHAR(255) NOT NULL
+  price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+  tax DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+  special_request VARCHAR(255)
 );
 
 CREATE TABLE notifications (
@@ -50,5 +50,5 @@ CREATE TABLE notifications (
   order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
   recipients_id INTEGER REFERENCES recipients(id) ON DELETE CASCADE,
   message TEXT,
-  sent_at DATE NOT NULL
+  sent_at TIMESTAMP NOT NULL
 );
