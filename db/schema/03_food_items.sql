@@ -5,6 +5,6 @@ CREATE TABLE food_items (
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  price INTEGER  NOT NULL DEFAULT 0,
+  price DECIMAL(10, 2)  NOT NULL DEFAULT 0.00,
   image_url VARCHAR(255) NOT NULL
 );
