@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-const database = require("../db/queries/users");
+const database = require("../db/queries/recipents");
 
 router.get("/", (req, res) => {
   res.render("users");
