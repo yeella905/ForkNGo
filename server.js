@@ -19,24 +19,32 @@ app.use(express.static('public'));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const userApiRoutes = require('./routes/users-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
+const foodItemsApiRoutes = require('./routes/food_items')
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/api/users', userApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
+app.use('/api/food_items', foodItemsApiRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
+// Fetch food items and render them on the home page
 app.get('/', (req, res) => {
-  res.render('index');
+  foodQueries.getFoodItems()
+    .then(foodItems => {
+      res.render('index', { foodItems });
+    })
+    .catch(err => {
+      console.error('Error fetching food items:', err);
+      res.status(500).send('Error fetching food items');
+    });
 });
 
 app.listen(PORT, () => {
