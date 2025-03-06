@@ -1,18 +1,18 @@
 /*
- * All routes for User Data are defined here
+ * All routes for Food items Data are defined here
  * Since this file is loaded in server.js into api/users,
- *   these routes are mounted onto /api/users
- * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
+ *   these routes are mounted onto /api/food_items
  */
 
 const express = require('express');
 const router  = express.Router();
-const userQueries = require('../db/queries/users');
+const foodQueries = require('../db/queries/food_items');
 
+// Route to get all food items
 router.get('/', (req, res) => {
-  userQueries.getUsers()
-    .then(users => {
-      res.json({ users });
+  foodQueries.getFoodItems()
+    .then(foodItems => {
+      res.json({ foodItems });
     })
     .catch(err => {
       res
