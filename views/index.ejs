@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
-  <title>Home Page</title>
+  <title>ForkNGo - Restaurant</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta name="viewport" content="width=device-width, initial-scale=1.0" >
 
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
@@ -18,7 +20,29 @@
 </head>
 
 <body>
-  <h1>Have fun! 🥔</h1>
+  <header>
+    <h1>Welcome to our Restaurant 🥙</h1>
+  </header>
+
+  <main>
+    <h2>Food Menu</h2>
+    <div class="menu">
+      <% foodItems.forEach(foodItem => { %>
+        <div class="food-item">
+          <h3><%= foodItem.name %></h3>
+          <p><%= foodItem.description %></p>
+          <p>Price: $<%= foodItem.price %></p>
+          <img src="<%= foodItem.image_url %>" alt="<%= foodItem.name %>" style="width: 100px;">
+        </div>
+      <% }); %>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>ForkNGo © 2025</p>
+  </footer>
+
 </body>
 
 </html>
