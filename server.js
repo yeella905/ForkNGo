@@ -49,8 +49,20 @@ app.get('/', (req, res) => {
 });
 
 app.get("/login", (req, res) => {
+  const recipentQueries = require("./db/queries/recipients");
+  user = recipentQueries.getUser;
+  if (user) {
+    res.redirect("/");
+  }
+  const templateVars = { user };
+
   res.render("login");
 });
+
+app.post("/login", (req, res) => {
+  return res.redirect("/");
+});
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
