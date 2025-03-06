@@ -15,19 +15,20 @@ app.set('view engine', 'ejs');
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.json());
+app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const widgetApiRoutes = require('./routes/widgets-api');
-const usersRoutes = require('./routes/users');
-const foodItemsApiRoutes = require('./routes/food_items')
+const widgetApiRoutes = require("./routes/widgets-api");
+const usersApiRoutes = require("./routes/users");
+const foodItemsApiRoutes = require("./routes/food_items");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/api/widgets', widgetApiRoutes);
-app.use('/users', usersRoutes);
+app.use("/api/widgets", widgetApiRoutes);
+app.use("/api/users", usersApiRoutes);
 app.use('/api/food_items', foodItemsApiRoutes);
 // Note: mount other resources here, using the same pattern above
 
@@ -45,6 +46,10 @@ app.get('/', (req, res) => {
       console.error('Error fetching food items:', err);
       res.status(500).send('Error fetching food items');
     });
+});
+
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
 app.listen(PORT, () => {
