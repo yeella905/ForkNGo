@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/cart-styles.css">
 
+  <!-- Scripts -->
   <script src="/scripts/cart.js"></script>
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
@@ -23,33 +24,76 @@
 
 <body>
   <header>
-    <h1>Welcome to our Restaurant 🥙</h1>
-    <div id="shopping-cart">
-      <!--Cart components will be rendered here-->
+    <div class="header-content">
+     <h1>Welcome to ForkNGo 🥙</h1>
+      <div class="user-actions">
+        <% if (user) { %>
+          <p class="nav-item nav-link">Logged in as: <%= user.name %></p>
+          <a href="/logout" title="Link to logout">Logout</a>
+         <% } else { %>
+         <a href="/login" title="Link to login page">Login</a>
+        <% } %>
+        <div class="cart-icon">
+          <span id="cart-count" class="cart-count">0</span>
+          <span class="material-icons">shopping_cart</span>
+        </div>
+      </div>
     </div>
   </header>
-  <div>
-  <% if (user) { %>
-    <p class="nav-item nav-link">Logged in as: <%= user.name %></p>
-    <a href="/logout" title="Link to logout">Logout</a>
-    <% } else { %>
-    <a href="/login" title="Link to login page">Login</a>
-  <% } %> </div>
-  <main>
-    <h2>Food Menu</h2>
-    <div class="menu">
-      <% foodItems.forEach(foodItem => { %>
-        <div class="food-item">
-          <h3><%= foodItem.name %></h3>
-          <p><%= foodItem.description %></p>
-          <p>Price: $<%= foodItem.price %></p>
-          <img src="<%= foodItem.image_url %>" alt="<%= foodItem.name %>" style="width: 100px;">
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-      <% }); %>
 
+  <div class="container">
+    <div class="main-content">
+      <main>
+        <h2>Our Menu</h2>
+        <div class="menu">
+          <% foodItems.forEach(foodItem => { %>
+            <div class="food-item">
+              <img src="<%= foodItem.image_url %>" alt="<%= foodItem.name %>" class="food_item_image">
+              <div class="food-item-info">
+                <h3 class="food-item-name"><%= foodItem.name %></h3>
+                <p class="food-item-description"><%= foodItem.description %></p>
+                <div class="food-item-price">$<%= foodItem.price %></div>
+
+                <div class="food-item-actions">
+                  <textarea class="special-request-input" placeholder="Special requests..."></textarea>
+
+                  <button class="add-to-cart-btn"
+                    data-food-id=""
+                    data-food-name=""
+                    data-food-price="">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </main>
     </div>
-  </main>
+
+    <div class="sidebar">
+      <div class="cart-container">
+        <div class="cart-header">
+          <h2>Your Order</h2>
+          <span id="cart-sidebar-count" class="cart-count">0</span>
+        </div>
+
+        <div id="cart-items" class="cart-items">
+          <div class="empty-cart">Your cart is empty</div>
+        </div>
+
+        <div id="cart-total" class="cart-total">
+          <div class="cart-subtotal">Subtotal: $0.00</div>
+          <div class="cart-tax">Tax: $0.00</div>
+          <div class="cart-total-amount">Total: $0.00</div>
+        </div>
+
+        <div class="cart-actions">
+          <button id="checkout-button" class="checkout-button">Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p>ForkNGo © 2025</p>
