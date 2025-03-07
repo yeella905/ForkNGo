@@ -16,6 +16,7 @@
   "dependencies": {
     "chalk": "4.1.2",
     "concurrently": "8.2.2",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",

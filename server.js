@@ -4,9 +4,10 @@ require('dotenv').config();
 // Web server config
 const express = require('express');
 const morgan = require('morgan');
-const session = require("express-session") //cookies parser
+const cookieParser = require("cookie-parser"); 
 const PORT = process.env.PORT || 8080;
 const app = express();
+app.use(cookieParser());
 
 const foodQueries = require("./db/queries/food_items");
 const recipentQueries = require("./db/queries/recipents");
@@ -19,15 +20,6 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-
-app.use( //session storage to save user details when user logs in
-    session({
-      secret: "abcdefghijklmnopquqnjnkanfbijqwleqiuewqe",
-      resave: false,
-      saveUninitialized: true,
-      cookie: { secure: false } 
-    })
-  );
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -49,8 +41,8 @@ app.use("/api/food_items", foodItemsApiRoutes);
 
 // Fetch food items and render them on the home page
 app.get("/", (req, res) => {
-    const user = req.session.user || null
-    console.log(req.session)
+    const user = req.cookies.forkngousername || null
+  
   foodQueries
     .getFoodItems()
     .then((foodItems) => {
@@ -67,19 +59,22 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  const { name, email } = req.body;
 
   // Fetch user from the database
     recipentQueries
       .getUser(req.body)
       .then((user) => {
         if (user.length == 0) {
-          return res.status(401).send( "error email or username not found" ); //if user provides wrong email or name, display 401 error message
+          return res.send( "error email or username not found" ); 
         }
-        req.session.user = {name:user[0].name} //once the user logs in, the session will belong to that user. this is how we are going to access the user in other ejs files
+        console.log(user[0])
+        res.cookie("forkngousername", user[0].name, { maxAge: 900000, httpOnly: true });
         res.redirect("/")
       })
       .catch((e) => res.send(e));
 
+      return res.redirect("/");
 });
 
 app.get("/logout", (req, res) => { 
