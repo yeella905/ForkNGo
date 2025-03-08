@@ -50,4 +50,44 @@ const setupAddToCartButtons = function() {
 
     });
   });
-}
+};
+
+/**
+ * Add food item to the cart
+ * @param {number} id - Food item ID
+ * @param {string} name - Food item name
+ * @param {number} price - Food item price
+ * @param {string} image - Food item image URL
+ * @param {string} specialRequest - Special request for this item
+ */
+
+const addToCart = function(id, name, price, image, specialRequest) {
+  // Get current cart from localStorage
+  const cart = JSON.parse(localStorage.getItem('forkNGoCart'));
+
+  // Calculate tax (13%)
+  const tax = price * 0.13;
+
+  // Check if item already exists in cart
+  const existingItemIndex = cart.findIndex(item => item.food_items_id === id && item.special_request === specialRequest);
+
+  if (existingItemIndex > 0) {
+    // Item already exists with same special request, increment quantity
+    cart[existingItemIndex].quantity += 1;
+  } else {
+    // Add new item if item doesn't exist or has different special request
+    cart.push({
+      food_items_id: id,
+      name: name,
+      price: price,
+      tax: tax,
+      quantity: 1,
+      special_request: specialRequest,
+      image: image
+    });
+  }
+
+  // Save updated cart to localStorage
+  localStorage.setItem('forkNGoCart', JSON.stringify(cart));
+
+};
