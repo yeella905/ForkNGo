@@ -25,7 +25,7 @@ app.use( //session storage to save user details when user logs in
       secret: "abcdefghijklmnopquqnjnkanfbijqwleqiuewqe",
       resave: false,
       saveUninitialized: true,
-      cookie: { secure: false } 
+      cookie: { secure: false }
     })
   );
 
@@ -33,7 +33,7 @@ app.use( //session storage to save user details when user logs in
 // Note: Feel free to replace the example routes below with your own
 const widgetApiRoutes = require("./routes/widgets-api");
 const recipentsApiRoutes = require("./routes/recipents");
-const foodItemsApiRoutes = require("./routes/food_items");
+const foodItemsApiRoutes = require("./routes/menu");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -82,7 +82,7 @@ app.post("/login", async (req, res) => {
 
 });
 
-app.get("/logout", (req, res) => { 
+app.get("/logout", (req, res) => {
     //when user logs out, destroy session and remover user data
     req.session.destroy((error) => {
         if (error) {
