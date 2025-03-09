@@ -3,9 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopping cart</title>
+  <title>ForkNGo - Your Cart</title>
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" />
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+
+  <!-- Scripts -->
+  <script src="/vendor/jquery-3.0.0.js"></script>
+  <script defer src="/scripts/app.js"></script>
 </head>
+
 <body>
+  <header>
+    <div class="header-content">
+      <h1>ForkNGo 🥙</h1>
+
+      <div class="user-actions">
+        <% if (user) { %>
+          <p class="nav-item nav-link">Logged in as: <%= user.name %></p>
+          <a href="/logout">Logout</a>
+          <% } else { %>
+            <a href="/login">Login</a>
+          <% } %>
+        <div class="shopping-cart-link">
+          <a href="/">Menu</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="main-content">
+      <main>
+        <h2>Your Cart</h2>
+
+        <div id="local-cart-container">
+          <div class="cart-header">
+            <h3>Current Order</h3>
+          </div>
+
+        <div id="cart-items" class="cart-items">
+          <div class="empty-cart">Your cart is empty</div>
+        </div>
+
+        <div id="cart-total" class="cart-total">
+          <div class="cart-subtotal">Subtotal: $0.00</div>
+          <div class="cart-tax">Tax: $0.00</div>
+          <div class="cart-total-amount">Total: $0.00</div>
+        </div>
+
+        <div class="cart-actions">
+          <button id="checkout-button" class="checkout-button">Proceed to Checkout</button>
+        </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
   <h1>Your Orders</h1>
   <div>
 
