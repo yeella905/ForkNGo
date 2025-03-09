@@ -23,7 +23,7 @@ const initializeCart = function() {
 
 // Set up data attributes and event listeners for Add to Cart buttons
 const setupAddToCartButtons = function() {
-  $('add-to-cart-btn').each(function() {
+  $('.add-to-cart-btn').each(function() {
     const $foodItem = $(this).closest('.food-item');
     const foodId = $foodItem.index() + 1;
     const foodName = $foodItem.find('.food-item-name').text();
@@ -71,7 +71,7 @@ const addToCart = function(id, name, price, image, specialRequest) {
   // Check if item already exists in cart
   const existingItemIndex = cart.findIndex(item => item.food_items_id === id && item.special_request === specialRequest);
 
-  if (existingItemIndex > 0) {
+  if (existingItemIndex !== -1) { // findIndex method returns -1
     // Item already exists with same special request, increment quantity
     cart[existingItemIndex].quantity += 1;
   } else {
@@ -94,16 +94,13 @@ const addToCart = function(id, name, price, image, specialRequest) {
 
 // Update the cart UI
 const updateCartUI = function() {
-  const cart = JSON.parse(localStorage.getItem('forkNGo'));
+  const cart = JSON.parse(localStorage.getItem('forkNGoCart'));
   const $cartItems = $('#cart-items');
 
   // Calculate the totals
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   let subtotal = 0;
   let taxTotal = 0;
-
-  // Update the cart count
-  $cartCount.text(totalItems);
 
   // Clear current cart items
   $cartItems.empty();
@@ -115,6 +112,7 @@ const updateCartUI = function() {
     subtotal += itemSubtotal;
     taxTotal += itemTax;
 
+// ... in progress
 
-  }
+  });
 }
