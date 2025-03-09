@@ -25,9 +25,9 @@ const initializeCart = function() {
 const setupAddToCartButtons = function() {
   $('.add-to-cart-btn').each(function() {
     const $foodItem = $(this).closest('.food-item');
-    const foodId = $foodItem.index() + 1;
+    const foodId = $foodItem.data('food-id')
     const foodName = $foodItem.find('.food-item-name').text();
-    const foodPrice = $foodItem.find('.food-item-price').text();
+    const foodPrice = parseFloat($foodItem.find('.food-item-price').text().replace('$', ''));
     const foodImage = $foodItem.find('img').attr('src');
 
     // Set data attributes for the button
@@ -45,6 +45,7 @@ const setupAddToCartButtons = function() {
       const price = $(this).data('food-price');
       const image = $(this).data('food-image');
       const specialRequest = $(this).closest('.food-item-actions').find('.special-request-input').val();
+      const quantity = parseInt($(this).closest('.food-item').find('.food-item-quantity').val(), 10);
 
       addToCart(id, name, price, image, specialRequest);
 
@@ -59,6 +60,7 @@ const setupAddToCartButtons = function() {
  * @param {number} price - Food item price
  * @param {string} image - Food item image URL
  * @param {string} specialRequest - Special request for this item
+ * @param {number} quantity - The selected quantity of the food item
  */
 
 const addToCart = function(id, name, price, image, specialRequest) {
@@ -81,7 +83,7 @@ const addToCart = function(id, name, price, image, specialRequest) {
       name: name,
       price: price,
       tax: tax,
-      quantity: 1,
+      quantity: quantity,
       special_request: specialRequest,
       image: image
     });
