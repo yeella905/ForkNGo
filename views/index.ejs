@@ -45,7 +45,7 @@
         <h2>Our Menu</h2>
         <div class="menu">
           <% foodItems.forEach(foodItem => { %>
-            <div class="food-item">
+            <div class="food-item" data-food-id="<%= foodItem.id %">
               <img src="<%= foodItem.image_url %>" alt="<%= foodItem.name %>" class="food_item_image">
               <div class="food-item-info">
                 <h3 class="food-item-name"><%= foodItem.name %></h3>
@@ -56,9 +56,9 @@
                   <textarea class="special-request-input" placeholder="Special requests..."></textarea>
 
                   <button class="add-to-cart-btn"
-                    data-food-id=""
-                    data-food-name=""
-                    data-food-price="">
+                    data-food-id="<%= foodItem.id %>"
+                    data-food-name="<%= foodItem.name %>"
+                    data-food-price="<%= foodItem.price %>">
                     Add to Cart
                   </button>
                 </div>
