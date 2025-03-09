@@ -91,3 +91,30 @@ const addToCart = function(id, name, price, image, specialRequest) {
   localStorage.setItem('forkNGoCart', JSON.stringify(cart));
 
 };
+
+// Update the cart UI
+const updateCartUI = function() {
+  const cart = JSON.parse(localStorage.getItem('forkNGo'));
+  const $cartItems = $('#cart-items');
+
+  // Calculate the totals
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  let subtotal = 0;
+  let taxTotal = 0;
+
+  // Update the cart count
+  $cartCount.text(totalItems);
+
+  // Clear current cart items
+  $cartItems.empty();
+
+  // Add each item to the cart UI
+  cart.forEach((item, index) => {
+    const itemSubtotal = item.price * item.quantity;
+    const itemTax = item.tax * item.quantity;
+    subtotal += itemSubtotal;
+    taxTotal += itemTax;
+
+
+  }
+}
