@@ -55,6 +55,9 @@
                 <div class="food-item-actions">
                   <textarea class="special-request-input" placeholder="Special requests..."></textarea>
 
+                  <label for="quantity-<%= foodItem.id %>">Quantity:</label>
+                  <input type="number" id="quantity-<%= foodItem.id %>" class="food-item-quantity" value="1" min="1">
+
                   <button class="add-to-cart-btn"
                     data-food-id="<%= foodItem.id %>"
                     data-food-name="<%= foodItem.name %>"
