@@ -60,9 +60,65 @@
         </div>
         </div>
 
+        <% if (orders && orders.length > 0) { %>
+          <h2>Your Orders</h2>
+          <div class="orders-container">
+            <% orders.forEach(order => { %>
+              <div class="order-card">
+                <div class="order-header">
+                  <h3>Orde #<%= order.id %></h3>
+                  <div class="order-times">
+                    <p><strong>Selected pickup:</strong> <%= new Date(order.user)selected_pickup_time).toLocalsString() %></p>
+                    <p><strong>Estimated pickup:</strong> <%= new Date(order.estimated_pickup_time).toLocalsString() %></p>
+                    <% if (order.actual_pickup_time) { %>
+                      <p><strong>Actual pickup:</strong> <%= new Date(order.actual_pickup_time).toLocalsString() %%> </p>
+                    <% } %>
+                  </div>
+                </div>
+
+              <div class="order-items">
+                <% let orderSubtotal = 0; %>
+                <% let orderTax = 0; %>
+
+                <% order.items.forEach(item => { %>
+                  <% orderSubtotal +=parseFloat(item.price) * item.quantity; %>
+                  <% orderTax += parseFloat(item.tax) * item.quantity; %>
+
+                  <div class="order-item">
+                    <div class="order-item-image">
+                      <img src="<%= item.image_url %>" alt="<%= item.name %>">
+                    </div>
+                    <div class="order-item-details">
+                      <h4><%= item.name %></h4>
+                      <p>Quantity: <%= item.quantity %></p>
+                      <p>Price: $<%= parseFloat(item.price).toFixed(2) %></p>
+                      <% if (item.special_request) { %>
+                        <p class="special-request">Note: <%= item.special_request %></p>
+                      <% } %>
+                    </div>
+                  </div>
+                 <% }); %>
+
+                 <div class="order-total">
+                    <p><strong>Subtotal:</strong> $<%= orderSubtotal.toFixed(2) %></p>
+                    <p><strong>Tax:</strong> $<%= orderTax.toFixed(2) %></p>
+                    <p><strong>Total:</strong> $<%= (orderSubtotal + orderTax).toFixed(2) %></p>
+                 </div>
+               </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } else if (user) { %>
+          <div class="no-orders">
+            <h3>You haven't placed any orders yet</h3>
+            <p>Browse our menu to place your first order!</p>
+            <a href="/" class="browse-menu-btn">Browse Menu</a>
+          </div>
+        <% } %>
       </main>
     </div>
   </div>
+
   <h1>Your Orders</h1>
   <div>
 
