@@ -68,10 +68,10 @@
                 <div class="order-header">
                   <h3>Orde #<%= order.id %></h3>
                   <div class="order-times">
-                    <p><strong>Selected pickup:</strong> <%= new Date(order.user)selected_pickup_time).toLocalsString() %></p>
+                    <p><strong>Selected pickup:</strong> <%= new Date(order.user)selected_pickup_time).toLocaleString() %></p>
                     <p><strong>Estimated pickup:</strong> <%= new Date(order.estimated_pickup_time).toLocalsString() %></p>
                     <% if (order.actual_pickup_time) { %>
-                      <p><strong>Actual pickup:</strong> <%= new Date(order.actual_pickup_time).toLocalsString() %%> </p>
+                      <p><strong>Actual pickup:</strong> <%= new Date(order.actual_pickup_time).toLocalsString() %> </p>
                     <% } %>
                   </div>
                 </div>
@@ -117,11 +117,6 @@
         <% } %>
       </main>
     </div>
-  </div>
-
-  <h1>Your Orders</h1>
-  <div>
-
   </div>
 
 </body>
