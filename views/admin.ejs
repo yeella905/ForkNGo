@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ForkNGo - Restaurant</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- App CSS -->
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/cart-styles.css" />
+
+    <!-- Scripts -->
+    <script src="/vendor/jquery-3.0.0.js"></script>
+    <script defer src="/scripts/app.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>Welcome to ForkNGo 🥙</h1>
+        <div class="user-actions">
+          <% if (user) { %>
+          <p class="nav-item nav-link">Logged in as: <%= user.name %></p>
+          <a href="/logout" title="Link to logout">Logout</a>
+          <% } else { %>
+          <a href="/login" title="Link to login page">Login</a>
+          <% } %>
+        </div>
+      </div>
+    </header>
+
+    <footer>
+      <p>ForkNGo © 2025</p>
+    </footer>
+  </body>
+</html>
