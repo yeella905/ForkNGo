@@ -12,17 +12,12 @@ router.post('/orders', (req, res) => {
     return res.status(401).json({ error: 'You must be logged in to place an order' });
   }
 
-  const { recipients_id, user_selected_pickup_time, estimated_pickup_time, cartItems } = req.body;
-
-  // Set actual pickup time to null for new orders
-  const actual_pickup_time = null;
+  const { recipients_id, order_status, cartItems } = req.body;
 
   // Call the createOrder function to add the order and items to the DB
   orderQueries.createOrder(
-    recipients.id,
-    new Date(user_selected_pickup_time),
-    new Date(estimated_pickup_time),
-    actual_pickup_time,
+    recipients_id,
+    order_status,
     cartItems
   )
     .then(result => {
