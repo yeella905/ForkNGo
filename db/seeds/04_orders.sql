@@ -1,5 +1,5 @@
 -- Seed for orders
-INSERT INTO orders (recipients_id, user_selected_pickup_time, estimated_pickup_time, actual_pickup_time)
+INSERT INTO orders (recipients_id, order_status)
 VALUES
-  (1, '2025-03-10', '2025-03-10', '2025-03-10'),  -- Customer 1's order
-  (2, '2025-03-11', '2025-03-11', '2025-03-11');  -- Customer 2's order
+  (1, 'recieved'),  -- Customer 1's order
+  (2, 'in_progress');  -- Customer 2's order

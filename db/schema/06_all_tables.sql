@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS notifications CASCADE;
 DROP TABLE IF EXISTS order_items CASCADE;
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS food_items CASCADE;
@@ -30,9 +29,7 @@ CREATE TABLE food_items (
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY NOT NULL,
   recipients_id INTEGER REFERENCES recipients(id) ON DELETE CASCADE,
-  user_selected_pickup_time TIMESTAMP NOT NULL,
-  estimated_pickup_time TIMESTAMP NOT NULL,
-  actual_pickup_time TIMESTAMP NOT NULL
+  order_status VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE order_items (
@@ -43,12 +40,4 @@ CREATE TABLE order_items (
   price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
   tax DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
   special_request VARCHAR(255)
-);
-
-CREATE TABLE notifications (
-  id SERIAL PRIMARY KEY NOT NULL,
-  order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
-  recipients_id INTEGER REFERENCES recipients(id) ON DELETE CASCADE,
-  message TEXT,
-  sent_at TIMESTAMP NOT NULL
 );
