@@ -8,17 +8,19 @@ $(document).ready(function() {
   setupAddToCartButtons();
 
   // Set up checkout button functionality
-  $('#checkout-button').on('click', handleCheckout);
+  $('#checkout-button').on('click', placeOrder);
 });
+
+let cart = [];
 
 // Initialize the cart from localStorage
 const initializeCart = function() {
-  if (!localStorage.getItem('forkNGoCart')) {
-    localStorage.setItem('forkNGoCart', JSON.stringify([]));
-  }
-
   // Update the cart UI on page load
-  updateCartUI();
+  updateCartUI(cart);
+};
+
+const placeOrder = function() {
+  console.log("TBD");
 };
 
 // Set up data attributes and event listeners for Add to Cart buttons
@@ -64,9 +66,6 @@ const setupAddToCartButtons = function() {
  */
 
 const addToCart = function(id, name, price, image, specialRequest) {
-  // Get current cart from localStorage
-  const cart = JSON.parse(localStorage.getItem('forkNGoCart'));
-
   // Calculate tax (13%)
   const tax = price * 0.13;
 
@@ -83,20 +82,25 @@ const addToCart = function(id, name, price, image, specialRequest) {
       name: name,
       price: price,
       tax: tax,
-      quantity: quantity,
+      quantity: 1,
       special_request: specialRequest,
       image: image
     });
   }
 
-  // Save updated cart to localStorage
-  localStorage.setItem('forkNGoCart', JSON.stringify(cart));
-
+  updateCartUI(cart);
 };
 
+const itemsTemplate = `
+<% if (items.length > 0) { %>
+  <div>cart has <%= items.length %> items</div>
+<% } else { %>
+  <div>cart is empty</div>
+<% } %>
+`;
+
 // Update the cart UI
-const updateCartUI = function() {
-  const cart = JSON.parse(localStorage.getItem('forkNGoCart'));
+const updateCartUI = function(cart) {
   const $cartItems = $('#cart-items');
 
   // Calculate the totals
@@ -106,6 +110,9 @@ const updateCartUI = function() {
 
   // Clear current cart items
   $cartItems.empty();
+  $cartItems.html(ejs.render(itemsTemplate, {
+    items: cart
+  }));
 
   // Add each item to the cart UI
   cart.forEach((item, index) => {
