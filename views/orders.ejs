@@ -34,7 +34,6 @@
       </div>
     </div>
   </header>
-
   <div class="container">
     <div class="main-content">
       <main>
@@ -63,12 +62,12 @@
         <% if (orders && orders.length > 0) { %>
           <h2>Your Orders</h2>
           <div class="orders-container">
-            <% orders.forEach(order => { %>
+            <% orders.forEach((order) => { %>
               <div class="order-card">
                 <div class="order-header">
-                  <h3>Orde #<%= order.id %></h3>
+                  <h3>Order #<%= order.id %></h3>
                   <div class="order-times">
-                    <p><strong>Selected pickup:</strong> <%= new Date(order.user)selected_pickup_time).toLocaleString() %></p>
+                    <p><strong>Selected pickup:</strong> <%= new Date(order.user.selected_pickup_time).toLocaleString() %></p>
                     <p><strong>Estimated pickup:</strong> <%= new Date(order.estimated_pickup_time).toLocalsString() %></p>
                     <% if (order.actual_pickup_time) { %>
                       <p><strong>Actual pickup:</strong> <%= new Date(order.actual_pickup_time).toLocalsString() %> </p>
@@ -80,8 +79,8 @@
                 <% let orderSubtotal = 0; %>
                 <% let orderTax = 0; %>
 
-                <% order.items.forEach(item => { %>
-                  <% orderSubtotal +=parseFloat(item.price) * item.quantity; %>
+                <% order.items.forEach((item) => { %>
+                  <% orderSubtotal += parseFloat(item.price) * item.quantity; %>
                   <% orderTax += parseFloat(item.tax) * item.quantity; %>
 
                   <div class="order-item">
@@ -97,7 +96,7 @@
                       <% } %>
                     </div>
                   </div>
-                 <% }); %>
+                <% }); %>
 
                  <div class="order-total">
                     <p><strong>Subtotal:</strong> $<%= orderSubtotal.toFixed(2) %></p>
