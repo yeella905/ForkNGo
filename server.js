@@ -76,8 +76,12 @@ app.post("/login", async (req, res) => {
       if (user.length == 0) {
         return res.status(401).send("error email or username not found"); //if user provides wrong email or name, display 401 error message
       }
-      req.session.user = { name: user[0].name }; //once the user logs in, the session will belong to that user. this is how we are going to access the user in other ejs files
-      res.redirect("/");
+      req.session.user = { name: user[0].name, is_admin: user[0].is_admin }; //once the user logs in, the session will belong to that user. this is how we are going to access the user in other ejs files
+      if (user[0].is_admin) {
+        res.redirect("/admin");
+      } else {
+        res.redirect("/");
+      }
     })
     .catch((e) => res.send(e));
 });
@@ -97,14 +101,19 @@ app.listen(PORT, () => {
 });
 
 app.get("/admin", (req, res) => {
-  orders_admin
-    .getAdminOrders()
-    .then((ordersAdmin) => {
+  const user = req.session.user || null;
+  if (user.is_admin) {
+    orders_admin
+      .getAdminOrders()
+      .then((ordersAdmin) => {
         console.log(ordersAdmin);
-        res.render("admin", { ordersAdmin });
-    })
-    .catch((err) => {
-      console.error("Error fetching order:", err);
-      res.status(500).send("Error fetching order");
-    });
+        res.render("admin", { ordersAdmin, user });
+      })
+      .catch((err) => {
+        console.error("Error fetching order:", err);
+        res.status(500).send("Error fetching order");
+      });
+  } else {
+    res.redirect("/");
+  }
 });
