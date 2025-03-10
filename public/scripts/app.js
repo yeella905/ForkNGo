@@ -91,37 +91,41 @@ const addToCart = function(id, name, price, image, specialRequest) {
   updateCartUI(cart);
 };
 
-const itemsTemplate = `
+const cartContentTemplate = `
 <% if (items.length > 0) { %>
-  <div>cart has <%= items.length %> items</div>
+<div id="cart-items" class="cart-items">
+  <% items.forEach(it => { %>
+    <div class="cart-item">
+      <span><%= it.quantity %></span>
+      <span><%= it.name %></span>
+      <span>$<%= it.price.toFixed(2) %></span>
+    </div>
+  <% }); %>
+</div>
+<div id="cart-total" class="cart-total">
+  <div class="cart-subtotal">Subtotal: $<%= subtotal.toFixed(2) %></div>
+  <div class="cart-tax">Tax: $<%= taxtotal.toFixed(2) %></div>
+  <div class="cart-total-amount">Total: $<%= (subtotal + taxtotal).toFixed(2) %></div>
+</div>
 <% } else { %>
-  <div>cart is empty</div>
+<span>cart is empty</span>
 <% } %>
 `;
 
 // Update the cart UI
 const updateCartUI = function(cart) {
-  const $cartItems = $('#cart-items');
+  const $cartContent = $('#cart-content');
 
   // Calculate the totals
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  let subtotal = 0;
-  let taxTotal = 0;
+  const tax_rate = 0.13;
+  const subtotal = cart.reduce((sum, it) => sum + it.price * it.quantity, 0);
+  const taxtotal = subtotal * tax_rate;
 
   // Clear current cart items
-  $cartItems.empty();
-  $cartItems.html(ejs.render(itemsTemplate, {
-    items: cart
+  $cartContent.empty();
+  $cartContent.html(ejs.render(cartContentTemplate, {
+    items: cart,
+    subtotal: subtotal,
+    taxtotal: taxtotal
   }));
-
-  // Add each item to the cart UI
-  cart.forEach((item, index) => {
-    const itemSubtotal = item.price * item.quantity;
-    const itemTax = item.tax * item.quantity;
-    subtotal += itemSubtotal;
-    taxTotal += itemTax;
-
-// ... in progress
-
-  });
 }
