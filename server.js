@@ -10,6 +10,7 @@ const app = express();
 
 const foodQueries = require("./db/queries/food_items");
 const recipentQueries = require("./db/queries/recipents");
+const orders_admin = require("./db/queries/orders_admin");
 app.set("view engine", "ejs");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -20,14 +21,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-app.use( //session storage to save user details when user logs in
-    session({
-      secret: "abcdefghijklmnopquqnjnkanfbijqwleqiuewqe",
-      resave: false,
-      saveUninitialized: true,
-      cookie: { secure: false }
-    })
-  );
+app.use(
+  //session storage to save user details when user logs in
+  session({
+    secret: "abcdefghijklmnopquqnjnkanfbijqwleqiuewqe",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -49,12 +51,12 @@ app.use("/api/food_items", foodItemsApiRoutes);
 
 // Fetch food items and render them on the home page
 app.get("/", (req, res) => {
-    const user = req.session.user || null
-    console.log(req.session)
+  const user = req.session.user || null;
+  console.log(req.session);
   foodQueries
     .getFoodItems()
     .then((foodItems) => {
-      res.render("index", { foodItems,user });
+      res.render("index", { foodItems, user });
     })
     .catch((err) => {
       console.error("Error fetching food items:", err);
@@ -67,35 +69,41 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-
   // Fetch user from the database
-    recipentQueries
-      .getUser(req.body)
-      .then((user) => {
-        if (user.length == 0) {
-          return res.status(401).send( "error email or username not found" ); //if user provides wrong email or name, display 401 error message
-        }
-        req.session.user = {name:user[0].name} //once the user logs in, the session will belong to that user. this is how we are going to access the user in other ejs files
-        res.redirect("/")
-      })
-      .catch((e) => res.send(e));
-
+  recipentQueries
+    .getUser(req.body)
+    .then((user) => {
+      if (user.length == 0) {
+        return res.status(401).send("error email or username not found"); //if user provides wrong email or name, display 401 error message
+      }
+      req.session.user = { name: user[0].name }; //once the user logs in, the session will belong to that user. this is how we are going to access the user in other ejs files
+      res.redirect("/");
+    })
+    .catch((e) => res.send(e));
 });
 
 app.get("/logout", (req, res) => {
-    //when user logs out, destroy session and remover user data
-    req.session.destroy((error) => {
-        if (error) {
-            res.status(500).send("failed to logout")
-        }
-    })
-    res.redirect("/");
+  //when user logs out, destroy session and remover user data
+  req.session.destroy((error) => {
+    if (error) {
+      res.status(500).send("failed to logout");
+    }
   });
+  res.redirect("/");
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
 
 app.get("/admin", (req, res) => {
-  res.render("admin");
+  orders_admin
+    .getAdminOrders()
+    .then((ordersAdmin) => {
+      res.render("admin", ordersAdmin);
+    })
+    .catch((err) => {
+      console.error("Error fetching order:", err);
+      res.status(500).send("Error fetching order");
+    });
 });
