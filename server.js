@@ -100,7 +100,8 @@ app.get("/admin", (req, res) => {
   orders_admin
     .getAdminOrders()
     .then((ordersAdmin) => {
-      res.render("admin", ordersAdmin);
+        console.log(ordersAdmin);
+        res.render("admin", { ordersAdmin });
     })
     .catch((err) => {
       console.error("Error fetching order:", err);

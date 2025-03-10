@@ -24,9 +24,14 @@
     <header>
         <div class="header-content">
           <h1>Welcome to ForkNGo 🥙</h1>
+          
             <h2>Orders</h2>
               <div class="container">
-            
+                <% ordersAdmin.forEach(ordersAdmi => { %>
+                <div class="id" data-food-id="<%= ordersAdmi.id %>">
+        
+                </div>
+                <% }) %>
             <div class="user-actions">
             
           </div>
