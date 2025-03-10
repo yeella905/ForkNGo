@@ -20,7 +20,29 @@ const initializeCart = function() {
 };
 
 const placeOrder = function() {
-  console.log("TBD");
+  let o = {
+    recipient_id: 5,
+    items: cart.map(it => {
+      return {
+        food_items_id : it.food_items_id,
+        quantity : it.quantity,
+        special_request: it.special_request,
+      };
+    }),
+  }
+
+  $.post({
+    url: "/api/orders",
+    data: JSON.stringify(o),
+    contentType: "application/json"
+  }).done(res => {
+    // TODO: show message that the order is successful
+    cart = [];
+    updateCartUI(cart);
+    console.log(res);
+  }).fail(err => {
+    console.log(err);
+  });
 };
 
 // Set up data attributes and event listeners for Add to Cart buttons
@@ -113,15 +135,4 @@ const updateCartUI = function(cart) {
   $cartItems.html(ejs.render(itemsTemplate, {
     items: cart
   }));
-
-  // Add each item to the cart UI
-  cart.forEach((item, index) => {
-    const itemSubtotal = item.price * item.quantity;
-    const itemTax = item.tax * item.quantity;
-    subtotal += itemSubtotal;
-    taxTotal += itemTax;
-
-// ... in progress
-
-  });
 }

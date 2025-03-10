@@ -2,31 +2,26 @@ const express = require('express');
 const router  = express.Router();
 const orderQueries = require('../db/queries/orders');
 
-module.exports = (db) => {
+router.use(express.json());
 
 // Route to create a new order
-router.post('/orders', (req, res) => {
+router.post('/', (req, res) => {
+  /*
   const user = req.session.user;
 
   if(!user) {
     return res.status(401).json({ error: 'You must be logged in to place an order' });
   }
-
-  const { recipients_id, order_status, cartItems } = req.body;
-
-  // Call the createOrder function to add the order and items to the DB
+  */
+  const { recipient_id, items } = req.body;
   orderQueries.createOrder(
-    recipients_id,
-    order_status,
-    cartItems
-  )
-    .then(result => {
-      res.status(201).json({message: 'Order created successfully!', orderId: result.orderId, cartItems: result.cartItems });
-    })
-    .catch(err => {
-      res.status(500).json({ error: 'Failed to create order', details: err.message });
-    });
+    recipient_id,
+    items
+  ).then(r => {
+    res.status(201).json({ order_id: r.orderId });
+  }).catch(err => {
+    res.status(500).json({ message: "failed to create order", details: err.message});
+  });
 });
 
-return router;
-};
+module.exports = router;

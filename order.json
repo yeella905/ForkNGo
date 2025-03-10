@@ -1,0 +1,20 @@
+{
+  "recipient_id": 5,
+  "items" : [
+    {
+      "food_item_id" : 1,
+      "quantity" : 1,
+      "special_request" : "request a"
+    },
+    {
+      "food_item_id" : 2,
+      "quantity" : 1,
+      "special_request" : "request b"
+    },
+    {
+      "food_item_id" : 4,
+      "quantity" : 2,
+      "special_request" : "request c"
+    }
+  ]
+}

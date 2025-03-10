@@ -36,6 +36,7 @@ app.use(
 const widgetApiRoutes = require("./routes/widgets-api");
 const recipentsApiRoutes = require("./routes/recipents");
 const foodItemsApiRoutes = require("./routes/menu");
+const ordersApiRoutes = require("./routes/orders");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -43,6 +44,7 @@ const foodItemsApiRoutes = require("./routes/menu");
 app.use("/api/widgets", widgetApiRoutes);
 app.use("/api/recipents", recipentsApiRoutes);
 app.use("/api/food_items", foodItemsApiRoutes);
+app.use("/api/orders", ordersApiRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
