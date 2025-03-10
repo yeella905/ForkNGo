@@ -44,14 +44,15 @@
                             <p>Name: <%= order.name %></p><hr>
                             <p>Phone: #<%= order.phone %></p>
                         </div>
-                        <div class="order-items"><% order.items.forEach(items => { %>
+                        <div class="order"><% order.items.forEach(items => { %>
                             <div class="item">
                                 <p><%= items.food_name %></p>
                                 <p>$<%= items.price+items.tax %></p>
                             </div>
                             <% }) %> 
                         </div>
-                        <p>Order Status: <%= order.order_status %></p>
+                        
+                        <button class="button"> Order Status <%= order.order_status %></button>
                     </div>
                 <% }) %>
               </div>
