@@ -16,10 +16,8 @@ router.post('/orders', (req, res) => {
 
   // Call the createOrder function to add the order and items to the DB
   orderQueries.createOrder(
-    recipients.id,
-    new Date(user_selected_pickup_time),
-    new Date(estimated_pickup_time),
-    actual_pickup_time,
+    recipients_id,
+    order_status,
     cartItems
   )
     .then(result => {
