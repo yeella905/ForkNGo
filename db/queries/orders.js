@@ -10,45 +10,40 @@ const db = require('../connection');
  * @return {Promise<{}>} A promise to the property.
  */
 
-const createOrder = function(recipients_id, user_selected_pickup_time, estimated_pickup_time, actual_pickup_time, cartItems) {
-  const queryString_1 = `INSERT INTO orders (
-  recipients_id, user_selected_pickup_time, estimated_pickup_time, actual_pickup_time)
-  VALUES ($1, $2, $3, $4)
-  RETURNING id;`;
+const createOrder = function(
+  recipient_id,
+  items
+) {
+  const insertIntoOrders = "INSERT INTO orders (recipients_id, order_status) VALUES ($1, $2) RETURNING *";
+  const insertIntoOrdersParams = [recipient_id, "in progress"];
 
-  const queryParams_1 = [recipients_id, user_selected_pickup_time, estimated_pickup_time, actual_pickup_time];
-
+  console.log(insertIntoOrdersParams);
   // Insert the new order into the 'orders' table
-  return db.query(queryString_1, queryParams_1)
-    .then(orderResult => {
+  return db.query(
+    insertIntoOrders,
+    insertIntoOrdersParams
+  ).then(orderResult => {
       // Get the newly created order id
       const orderId = orderResult.rows[0].id;
 
       // Insert food items into the 'order_items' table
-      const insertOrderItemsPromises = cartItems.map(item => {
-        const queryString_2 = `INSERT INTO order_items (orders_id, food_items_id, quantity, price, tax, special_request)
-        VALUES ($1, $2, $3, $4, $5, $6)`;
+      const insertOrderItemsPromises = items.map(item => {
+        const insertIntoOrderItems = `INSERT INTO order_items (orders_id, food_items_id, quantity, special_request)
+        VALUES ($1, $2, $3, $4)`;
+        const insertIntoOrderItemsParams = [orderId, item.food_items_id, item.quantity, item.special_request];
 
-        const queryParams_2 = [
-          orderId,
-          item.food_items_id,
-          item.quantity,
-          item.price,
-          item.tax,
-          item.special_request
-        ];
+        console.log(insertIntoOrderItemsParams);
 
-        return db.query(queryString_2, queryParams_2);
+        return db.query(
+          insertIntoOrderItems,
+          insertIntoOrderItemsParams);
       });
 
       return Promise.all(insertOrderItemsPromises)
         .then(() => {
-          // Return the created order id along with its items
-          return { orderId, cartItems };
+          return { orderId };
         });
-    })
-
-    .catch((err) => {
+    }).catch((err) => {
       console.log('Error adding the order', err);
       throw err;
     });
