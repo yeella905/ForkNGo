@@ -16,3 +16,22 @@ body {
     rgba(163, 208, 219, 1) 100%
   );
 }
+
+.order-container {
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+.order-header {
+    font-weight: bold;
+    font-size: 18px;
+}
+.order-items {
+    margin-top: 15px;
+}
+.item {
+    margin-bottom: 10px;
+}
+.item-details {
+    margin-left: 20px;
+}

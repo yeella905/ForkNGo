@@ -24,25 +24,35 @@
     <header>
         <div class="header-content">
           <h1>Welcome to ForkNGo 🥙</h1>
+
+          <div class="user-actions">
+            <% if (user) { %>
+              <p class="nav-item nav-link">Logged in as: <%= user.name %></p>
+                <a href="/logout" title="Link to logout">Logout</a>
+              <% } else { %>
+                <a href="/login" title="Link to login page">Login</a>
+            <% } %>
+          </div>
           
             <h2>Orders</h2>
-              <div class="container">
+              <div class="order-container">
                 <% ordersAdmin.forEach(order => { %>
-                <div class="id" data-food-id="<%= order.id %>">
-                    <p><%= order.id %></p>
-                    <p><%= order.name %></p>
-                    <p><%= order.phone %></p>
-                    <div class="order-food"><% order.items.forEach(items => { %>
-                        <div class>
-                            <p>price <%= items.price %></p>
-                            <p>name <%= items.name %></p>
-                           
+                    <div class="order">
+                        <div class="order-header" data-food-id="<%= order.id %>">
+                            <p><%= order.id %></p>
+                            <p><%= order.name %></p>
+                            <p><%= order.phone %></p>
                         </div>
-                        <% }) %> 
+                        <div class="order-items"><% order.items.forEach(items => { %>
+                            <div class="item">
+                                <p>name <%= items.food_name %></p>
+                                <p>price <%= items.price+items.tax %></p>
+                            </div>
+                            <% }) %> 
+                        </div>
                     </div>
-                  </div>   
                 <% }) %>
-                </div>
+              </div>
             <div class="user-actions">
             
           </div>
