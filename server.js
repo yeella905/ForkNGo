@@ -64,6 +64,25 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get('/orders', (req, res) => {
+  const user = req.session.user;
+
+  // If user is not logged in just show the cart
+  if(!user) {
+    return res.render('orders', { user: null, orders: [] });
+  }
+
+  // Get user's orders
+  orderQueries.getOrders(user.id)
+    .then(orders => {
+      res.render('orders', { user, orders });
+    })
+    .catch(err => {
+      console.error('Error fetching orders:', err);
+      res.render('orders', { user, orders: [], error: 'Error fetching orders'});
+    });
+});
+
 app.get("/login", (req, res) => {
   res.render("login");
 });
