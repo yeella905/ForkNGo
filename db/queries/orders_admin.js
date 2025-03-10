@@ -3,7 +3,16 @@ const db = require("../connection");
 const getAdminOrders = () => {
   return db
     .query(
-      `SELECT orders.*, recipients.name, recipients.phone, array_agg(order_items) AS items, array_agg(food_items) AS foods 
+      `SELECT orders.*, recipients.name, recipients.phone,
+      array_agg(
+      DISTINCT jsonb_build_object(
+      'order_item_id', order_items.id,
+      'food_item_id', order_items.food_items_id,
+      'price', order_items.price,
+      'qty', order_items.quantity,
+      'tax', order_items.tax,
+      'special_request', order_items.special_request,
+      'food_name', food_items.name)) AS items
       FROM orders 
       INNER JOIN recipients ON orders.recipients_id = recipients.id
       INNER JOIN order_items ON orders.id = order_items.orders_id

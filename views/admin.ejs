@@ -27,11 +27,22 @@
           
             <h2>Orders</h2>
               <div class="container">
-                <% ordersAdmin.forEach(ordersAdmi => { %>
-                <div class="id" data-food-id="<%= ordersAdmi.id %>">
-        
-                </div>
+                <% ordersAdmin.forEach(order => { %>
+                <div class="id" data-food-id="<%= order.id %>">
+                    <p><%= order.id %></p>
+                    <p><%= order.name %></p>
+                    <p><%= order.phone %></p>
+                    <div class="order-food"><% order.items.forEach(items => { %>
+                        <div class>
+                            <p>price <%= items.price %></p>
+                            <p>name <%= items.name %></p>
+                           
+                        </div>
+                        <% }) %> 
+                    </div>
+                  </div>   
                 <% }) %>
+                </div>
             <div class="user-actions">
             
           </div>
