@@ -53,11 +53,15 @@
                             </div>
                             <% }) %> 
                         </div>
-                        <button id="status-btn-<%= order.id %>" onclick="updateOrderStatus(`<%= order.id %>`, `<%= order.order_status %>`)">
-                            <%= order.order_status === 'received' ? 'Mark as in progress' : 
-                                order.order_status === 'in progress' ? 'Mark as ready for pick-up' : 
-                                order.order_status === 'ready for pick-up' ? 'Mark as picked up' : 
-                                'order completed' %>
+                        
+                          <button 
+                                id="status-btn-<%= order.id %>" 
+                                <% if (order.order_status === 'picked up') { %> disabled <% } %>
+                                onclick="updateOrderStatus(<%= order.id %>, '<%= order.order_status %>')">
+                                <%= order.order_status === 'received' ? 'Mark as in progress' : 
+                                    order.order_status === 'in progress' ? 'Mark as ready for pick-up' : 
+                                    order.order_status === 'ready for pick-up' ? 'Mark as picked up' : 
+                                    'order completed' %>
                           </button>
                     </div>
                 <% }) %>
@@ -89,26 +93,31 @@
       newStatus = "picked up";
       buttonText = "Order completed";
     } 
-    alert(newStatus)
-    alert(orderStatus)
+
             try{
                 const response = await fetch('/update-status', { //fetch request for post
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId, newStatus })  //send order.id and status
       });
-    
+      button.disabled = true;
       if (!response.ok) {
             throw new Error("Failed to update status");
         }
 
         const result = await response.json();
         console.log("Server response:", result);
-        window.location.reload()
-
+        button.innerText = buttonText;
+        button.onclick = function () {
+                updateOrderStatus(orderId, newStatus);
+            };
+            if(newStatus == "picked up") {
+                button.disabled = true;
+            } else {
+                button.disabled = false;
+            }
         } catch (error) {
         console.error("Error updating order status:", error);
-        alert("An error occurred while updating order status.");
         }
         }
 
