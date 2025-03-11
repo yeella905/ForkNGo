@@ -1,4 +1,22 @@
+require('dotenv').config();
 const db = require('../connection');
+const twilio = require("twilio");
+
+// Sets Twilio env variables
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+
+const client = twilio(accountSid, authToken);
+
+async function createMessage() {
+    const message = await client.messages.create({
+      body: "ForkNGo has received your order. We'll update you shortly with pickup time.",
+      from: "+17242020885",
+      to: "+16138694860",
+    })
+    console.log(message.body);
+    return message;
+};
 
 const createOrder = function(
   recipient_id,
@@ -8,6 +26,7 @@ const createOrder = function(
   const insertIntoOrdersParams = [recipient_id, "in progress"];
 
   console.log(insertIntoOrdersParams);
+
   // Insert the new order into the 'orders' table
   return db.query(
     insertIntoOrders,
@@ -31,9 +50,16 @@ const createOrder = function(
 
       return Promise.all(insertOrderItemsPromises)
         .then(() => {
-          return { orderId };
+          return createMessage()
+          .then(messageResult => {
+            return {
+              orderId,
+              messageStatus: messageResult.status
+            };
+          });
         });
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.log('Error adding the order', err);
       throw err;
     });
