@@ -9,9 +9,22 @@ $(document).ready(function() {
 
   // Set up checkout button functionality
   $('#checkout-button').on('click', placeOrder);
+
+  // Disable Place Order button if cart is empty
+  updateCheckoutButtonState();
 });
 
 let cart = [];
+
+// Update checkout button state based on cart
+const updateCheckoutButtonState = function () {
+  const $checkoutButton = $('#checkout-button');
+  if (cart.length === 0) {
+    $checkoutButton.prop('disabled', true);
+  } else {
+    $checkoutButton.prop('disabled', false);
+  }
+};
 
 // Initialize the cart from localStorage
 const initializeCart = function() {
@@ -20,6 +33,10 @@ const initializeCart = function() {
 };
 
 const placeOrder = function() {
+  // Disable the button
+  const $checkoutButton = $('#checkout-button');
+  $checkoutButton.prop('disabled', true).text('Processing');
+
   let o = {
     recipient_id: 2,
     items: cart.map(it => {
@@ -36,9 +53,16 @@ const placeOrder = function() {
     data: JSON.stringify(o),
     contentType: "application/json"
   }).done(res => {
-    // TODO: show message that the order is successful
+    // Show success message
+    const $cartContent = $('#cart-content');
+    $cartContent.prepend('<div class="order-success-message">Order placed successfully!</div>');
+
     cart = [];
     updateCartUI(cart);
+
+    // Change button text to "Order Placed" for a while
+    $checkoutButton.text('Order Placed!');
+
     console.log(res);
   }).fail(err => {
     console.log(err);
@@ -130,7 +154,7 @@ const cartContentTemplate = `
   <div class="cart-total-amount">Total: $<%= (subtotal + taxtotal).toFixed(2) %></div>
 </div>
 <% } else { %>
-<span>cart is empty</span>
+<span>Cart is empty</span>
 <% } %>
 `;
 
@@ -150,4 +174,7 @@ const updateCartUI = function(cart) {
     subtotal: subtotal,
     taxtotal: taxtotal
   }));
+
+  // Update checkout(Place order) button state
+  updateCheckoutButtonState();
 }
