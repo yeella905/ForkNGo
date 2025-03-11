@@ -21,7 +21,7 @@ const initializeCart = function() {
 
 const placeOrder = function() {
   let o = {
-    recipient_id: 5,
+    recipient_id: 2,
     items: cart.map(it => {
       return {
         food_items_id : it.food_items_id,
