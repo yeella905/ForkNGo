@@ -138,3 +138,23 @@ app.get("/admin", (req, res) => {
     res.redirect("/");
   }
 });
+
+app.post("/update-status", (req, res) => {
+  const { orderId, newStatus } = req.body;
+
+  if (!orderId || !newStatus) {
+    //making sure orderId and newStatus is passed properly
+    return res.status(400).send("Missing orderId or newStatus");
+  }
+
+  orders_admin
+    .updateOrder(orderId, newStatus)
+    .then((response) => {
+      console.log("Update response:", response);
+      res.json({ response });
+    })
+    .catch((err) => {
+      console.error("Error updating order:", err);
+      res.status(500).send("Error updating order");
+    });
+});

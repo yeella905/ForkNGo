@@ -44,15 +44,27 @@
                             <p>Name: <%= order.name %></p><hr>
                             <p>Phone: #<%= order.phone %></p>
                         </div>
+                        
                         <div class="order"><% order.items.forEach(items => { %>
                             <div class="item">
                                 <p><%= items.food_name %></p>
-                                <p>$<%= items.price+items.tax %></p>
+                                <p>Quantity: <%= items.qty %></p>
+                                
                             </div>
                             <% }) %> 
                         </div>
-                        
-                        <button class="button"> Order Status <%= order.order_status %></button>
+                        <!-- checking if order status is picked up. If picked up, make sure button is disabled -->
+                         <!-- pass the order.id and the current order status -->
+                          <!-- changes the button text by order status -->
+                          <button 
+                                id="status-btn-<%= order.id %>" 
+                                <% if (order.order_status === 'picked up') { %> disabled <% } %> 
+                                onclick="updateOrderStatus(<%= order.id %>, '<%= order.order_status %>')"> 
+                                <%= order.order_status === 'received' ? 'Mark as in progress' :  
+                                    order.order_status === 'in progress' ? 'Mark as ready for pick-up' : 
+                                    order.order_status === 'ready for pick-up' ? 'Mark as picked up' : 
+                                    'order completed' %>
+                          </button>
                     </div>
                 <% }) %>
               </div>
@@ -67,5 +79,53 @@
     <footer>
       <p>ForkNGo © 2025</p>
     </footer>
+    <script>
+        async function updateOrderStatus(orderId, orderStatus) {
+            const button = document.getElementById(`status-btn-${orderId}`) //getting the button by id 
+
+            let newStatus ="" 
+            let buttonText = "" 
+            //checking for the current order status and updating new status and buttom text accordingly
+    if (orderStatus == "received") {
+      newStatus = "in progress";
+      buttonText = "Mark as ready for pick-up";
+    } else if (orderStatus == "in progress") {
+      newStatus = "ready for pick-up";
+      buttonText = "Mark as  picked up";
+    } else if (orderStatus == "ready for pick-up") {
+      newStatus = "picked up";
+      buttonText = "Order completed";
+    } 
+
+            try{
+                const response = await fetch('/update-status', { //fetch request for post
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, newStatus })  //send order.id and status
+      });
+      button.disabled = true; //disabling the button so that the user can't click while it's updating
+      button.innerText = "updating status" //changing the text so that the user knows that it's updating
+      if (!response.ok) {
+            throw new Error("Failed to update status");
+        }
+
+        const result = await response.json(); //waiting for the respond on the database update
+        console.log("Server response:", result);
+        button.innerText = buttonText; //changing the button text once the database is updated
+        //updating the status on click function so that the next time user click, button works properly
+        button.onclick = function () {
+                updateOrderStatus(orderId, newStatus);
+            };
+            if(newStatus == "picked up") { //checking if new status is picked up and making sure the button is diabled or not
+                button.disabled = true;
+            } else {
+                button.disabled = false;
+            }
+        } catch (error) {
+        console.error("Error updating order status:", error);
+        }
+        }
+
+    </script>
   </body>
 </html>
