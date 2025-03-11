@@ -138,3 +138,40 @@ app.get("/admin", (req, res) => {
     res.redirect("/");
   }
 });
+
+
+// app.post("/update-status", (req, res) => {
+//   const { orderId, newStatus } = req.body;
+//   console.log(req.body);
+
+//   orders_admin
+//     .updateOrder(orderId, newStatus)
+//     .then((response) => {
+//       console.log(response);
+//       res.redirect("/admin");
+//     })
+//     .catch((err) => {
+//       console.error("Error fetching order:", err);
+//       res.status(500).send("Error fetching order");
+//     });
+// });
+
+app.post("/update-status", (req, res) => {
+    const { orderId, newStatus } = req.body;
+    console.log("Received request:", req.body); // Debugging
+  
+    if (!orderId || !newStatus) {
+      return res.status(400).send("Missing orderId or newStatus");
+    }
+  
+    orders_admin
+      .updateOrder(orderId, newStatus)
+      .then((response) => {
+        console.log("Update response:", response);
+        res.json({ response});
+      })
+      .catch((err) => {
+        console.error("Error updating order:", err);
+        res.status(500).send("Error updating order");
+      });
+  });

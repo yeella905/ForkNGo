@@ -25,4 +25,19 @@ const getAdminOrders = () => {
     });
 };
 
-module.exports = { getAdminOrders };
+const updateOrder = (orderId, status) => {
+  const querystring = `UPDATE orders SET order_status = $2
+      WHERE id = $1`;
+  const values = [orderId, status];
+  return db
+    .query(querystring, values)
+    .then(() => {
+      return { success: true, message: "Order status updated successfully" };
+    })
+    .catch((error) => {
+      console.error("Error updating order status:", error);
+      return { success: false, message: "Internal server error" };
+    });
+};
+
+module.exports = { getAdminOrders, updateOrder };
