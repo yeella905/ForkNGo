@@ -1,15 +1,5 @@
 const db = require('../connection');
 
-/**
- * Add a new order to the DB
- * @param {number} recipients_id The ID of the recipient
- * @param {Date} user_selected_pickup_time User selected pickup time
- * @param {Date} estimated_pickup_time Estimated pickup time
- * @param {Date} actual_pickup_time Actual pickup time
- * @param {Array} cartItems Array of items in the cart
- * @return {Promise<{}>} A promise to the property.
- */
-
 const createOrder = function(
   recipient_id,
   items
