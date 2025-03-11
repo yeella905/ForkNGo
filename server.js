@@ -139,28 +139,11 @@ app.get("/admin", (req, res) => {
   }
 });
 
-
-// app.post("/update-status", (req, res) => {
-//   const { orderId, newStatus } = req.body;
-//   console.log(req.body);
-
-//   orders_admin
-//     .updateOrder(orderId, newStatus)
-//     .then((response) => {
-//       console.log(response);
-//       res.redirect("/admin");
-//     })
-//     .catch((err) => {
-//       console.error("Error fetching order:", err);
-//       res.status(500).send("Error fetching order");
-//     });
-// });
-
 app.post("/update-status", (req, res) => {
   const { orderId, newStatus } = req.body;
-  console.log("Received request:", req.body); // Debugging
 
   if (!orderId || !newStatus) {
+    //making sure orderId and newStatus is passed properly
     return res.status(400).send("Missing orderId or newStatus");
   }
 
@@ -169,45 +152,9 @@ app.post("/update-status", (req, res) => {
     .then((response) => {
       console.log("Update response:", response);
       res.json({ response });
-      orders_admin
-        .getAdminOrders()
-        .then((ordersAdmin) => {
-          console.log(ordersAdmin);
-          res.render("admin", { ordersAdmin, user });
-        })
-        .catch((err) => {
-          console.error("Error fetching order:", err);
-          res.status(500).send("Error fetching order");
-        });
     })
     .catch((err) => {
       console.error("Error updating order:", err);
       res.status(500).send("Error updating order");
     });
 });
-
-// app.post("/update-status", async (req, res) => {
-//   const { orderId, newStatus } = req.body;
-//   console.log("Received request:", req.body); // Debugging
-
-//   if (!orderId || !newStatus) {
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "Missing orderId or newStatus" });
-//   }
-
-//   try {
-//     // Step 1: Update the order status
-//     await orders_admin.updateOrder(orderId, newStatus);
-
-//     // Step 2: Fetch updated orders
-//     const ordersAdmin = await orders_admin.getAdminOrders();
-//     console.log("Updated orders:", ordersAdmin);
-
-//     // Step 3: Render the updated page
-//     res.render("admin", { ordersAdmin, user });
-//   } catch (error) {
-//     console.error("Error updating or fetching orders:", error);
-//     res.status(500).json({ success: false, message: "Internal server error" });
-//   }
-// });
