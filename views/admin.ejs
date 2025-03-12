@@ -22,17 +22,21 @@
 
   <body>
     <header>
+      <div class="nav-container">
         <div class="header-content">
-          <h1>Welcome to ForkNGo 🥙</h1>
+          <h1>Welcome to ForkNGo </h1>
+        </div>
 
-          <div class="user-actions">
+        <div class="user-actions">
             <% if (user) { %>
               <p class="nav-item nav-link">Logged in as: <%= user.name %></p>
                 <a href="/logout" title="Link to logout">Logout</a>
               <% } else { %>
                 <a href="/login" title="Link to login page">Login</a>
             <% } %>
-          </div>
+        </div>
+    
+      </div>
           
             <h2>Orders</h2>
               <div class="order-container">
@@ -57,7 +61,7 @@
                          <!-- pass the order.id and the current order status -->
                           <!-- changes the button text by order status -->
                           <button 
-                                id="status-btn-<%= order.id %>" 
+                                id="status-btn-<%= order.id %>" class="button"
                                 <% if (order.order_status === 'picked up') { %> disabled <% } %> 
                                 onclick="updateOrderStatus(<%= order.id %>, '<%= order.order_status %>')"> 
                                 <%= order.order_status === 'received' ? 'Mark as in progress' :  
@@ -68,10 +72,6 @@
                     </div>
                 <% }) %>
               </div>
-            <div class="user-actions">
-            
-          </div>
-        </div>
       </div>
   
     </header>
