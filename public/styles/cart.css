@@ -1,0 +1,17 @@
+
+.cart-container {
+    margin: 4px;
+    padding: 15px;
+    border: 2.5px solid #6b59d1;
+    border-radius: 10px;
+    height: fit-content;
+    min-height: 10vh; /* Ensure enough space for scrolling */
+    
+  }
+
+  .cart-position {
+    position: sticky;
+    top: 10px; /* Adjust this as needed */
+    align-self: flex-start;
+    flex-basis: 300px; /* Adjust cart width */
+  }
