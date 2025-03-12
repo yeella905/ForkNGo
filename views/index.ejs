@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/cart.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/cart-styles.css">
 
@@ -25,25 +26,21 @@
 <body>
   <nav class="main-nav">
     <div class="nav-container">
-      <div class="nav-logo">
-        <a href="/">ForkNGo 🥙</a>
-      </div>
-      <div class="nav-user">
-        <% if (user) { %>
-          <span class="user-name">Hi, <%= user.name %></span>
-          <a href="/logout" class="nav-button">Logout</a>
-        <% } else { %>
-          <a href="/login" class="nav-button">Login</a>
-        <% } %>
+        <div class="header-content">
+         <h1>Welcome to ForkNGo</h1>
         </div>
-      </div>
+       
+         <div class="user-actions">
+             <% if (user) { %>
+                <span class="user-name">Hi, <%= user.name %></span>
+                <a href="/logout" class="nav-button">Logout</a>
+                <% } else { %>
+                    <a href="/login" class="nav-button">Login</a>
+                    <% } %>
+          </div>
+  
     </div>
   </nav>
-  <header>
-    <div class="header-content">
-     <h1>Welcome to ForkNGo</h1>
-    </div>
-  </header>
 
   <div class="container">
     <div class="main-content">
@@ -52,7 +49,9 @@
         <div class="menu">
           <% foodItems.forEach(foodItem => { %>
             <div class="food-item" data-food-id="<%= foodItem.id %>">
-              <img src="<%= foodItem.image_url %>" alt="<%= foodItem.name %>" class="food_item_image">
+              <div class="image_container">
+                <img src="<%= foodItem.image_url %>" alt="<%= foodItem.name %>" class="food_item_image">
+              </div>
               <div class="food-item-info">
                 <h3 class="food-item-name"><%= foodItem.name %></h3>
                 <p class="food-item-description"><%= foodItem.description %></p>
@@ -77,21 +76,21 @@
         </div>
       </main>
     </div>
-
-    <div class="sidebar">
-      <div class="cart-container">
-        <div class="cart-header">
-          <h2>Your Order</h2>
+    <div class="cart-position">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h2>Your Order</h2>
+            </div>
+        
+            <div id="cart-content"></div>
+        
+            <div class="cart-actions">
+                <button id="checkout-button" class="checkout-button">Place Order</button>
+            </div>
         </div>
-
-        <div id="cart-content"></div>
-
-        <div class="cart-actions">
-          <button id="checkout-button" class="checkout-button">Place Order</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
 
   <footer>
     <p>ForkNGo © 2025</p>

@@ -24,7 +24,7 @@
     "morgan": "^1.10.0",
     "pg": "^8.13.3",
     "sass": "^1.83.1",
-    "twilio": "^5.4.5"
+    "twilio": "^5.5.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
