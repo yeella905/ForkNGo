@@ -23,7 +23,7 @@ const createOrder = function(
   items
 ) {
   const insertIntoOrders = "INSERT INTO orders (recipients_id, order_status) VALUES ($1, $2) RETURNING *";
-  const insertIntoOrdersParams = [recipient_id, "in progress"];
+  const insertIntoOrdersParams = [recipient_id, "received"];
 
   console.log(insertIntoOrdersParams);
 
