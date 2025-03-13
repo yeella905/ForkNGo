@@ -1,17 +1,127 @@
-
+/* Cart Container Styling */
 .cart-container {
-    margin: 4px;
-    padding: 15px;
-    border: 2.5px solid #6b59d1;
-    border-radius: 10px;
-    height: fit-content;
-    min-height: 10vh; /* Ensure enough space for scrolling */
-    
-  }
+  margin: 10px;
+  padding: 20px;
+  border: 2px solid #6b59d1;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  min-height: 20vh;
+  max-height: 80vh;
+  overflow-y: auto;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
 
-  .cart-position {
-    position: sticky;
-    top: 10px; /* Adjust this as needed */
-    align-self: flex-start;
-    flex-basis: 300px; /* Adjust cart width */
-  }
+.cart-header {
+  border-bottom: 2px solid #6b59d1;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+
+.cart-header h2 {
+  margin: 0;
+  color: #6b59d1;
+  font-size: 1.5rem;
+}
+
+#cart-content {
+  flex-grow: 1;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+}
+
+.food-item {
+  background-color: white;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-left: 3px solid #6b59d1;
+}
+
+.food-item-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.food-item-price {
+  font-weight: bold;
+  color: #6b59d1;
+}
+
+.food-item-quantity {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.9rem;
+  margin-right: 8px;
+}
+
+.cart-item-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.empty-cart-message {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 30px 0;
+  margin-bottom: 20px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.cart-actions {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.checkout-button {
+  width: 100%;
+  background-color: #6b59d1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.checkout-button:hover {
+  background-color: #5a4ab0;
+}
+
+.checkout-button:disabled {
+  background-color: #b3b3b3;
+  cursor: not-allowed;
+}
+
+.cart-position {
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+  margin-left: 20px;
+}

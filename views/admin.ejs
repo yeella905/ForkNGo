@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- App CSS -->
-    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
     <link rel="stylesheet" href="/vendor/border-box.css" />
     <link rel="stylesheet" href="/styles/main.css" />
@@ -35,45 +35,45 @@
                 <a href="/login" title="Link to login page">Login</a>
             <% } %>
         </div>
-    
+
       </div>
-          
+
             <h2>Orders</h2>
               <div class="order-container">
                 <% ordersAdmin.forEach(order => { %>
                     <div class="order">
                         <div class="order-header" data-food-id="<%= order.id %>">
-                            
-                            <p>Order ID: <%= order.id %></p><hr>   
+
+                            <p>Order ID: <%= order.id %></p><hr>
                             <p>Name: <%= order.name %></p><hr>
                             <p>Phone: #<%= order.phone %></p>
                         </div>
-                        
+
                         <div class="order"><% order.items.forEach(items => { %>
                             <div class="item">
                                 <p><%= items.food_name %></p>
                                 <p>Quantity: <%= items.qty %></p>
-                                
+
                             </div>
-                            <% }) %> 
+                            <% }) %>
                         </div>
                         <!-- checking if order status is picked up. If picked up, make sure button is disabled -->
                          <!-- pass the order.id and the current order status -->
                           <!-- changes the button text by order status -->
-                          <button 
+                          <button
                                 id="status-btn-<%= order.id %>" class="button"
-                                <% if (order.order_status === 'picked up') { %> disabled <% } %> 
-                                onclick="updateOrderStatus(<%= order.id %>, '<%= order.order_status %>')"> 
-                                <%= order.order_status === 'received' ? 'Mark as in progress' :  
-                                    order.order_status === 'in progress' ? 'Mark as ready for pick-up' : 
-                                    order.order_status === 'ready for pick-up' ? 'Mark as picked up' : 
+                                <% if (order.order_status === 'picked up') { %> disabled <% } %>
+                                onclick="updateOrderStatus(<%= order.id %>, '<%= order.order_status %>')">
+                                <%= order.order_status === 'received' ? 'Mark as in progress' :
+                                    order.order_status === 'in progress' ? 'Mark as ready for pick-up' :
+                                    order.order_status === 'ready for pick-up' ? 'Mark as picked up' :
                                     'order completed' %>
                           </button>
                     </div>
                 <% }) %>
               </div>
       </div>
-  
+
     </header>
 
     <footer>
@@ -81,10 +81,10 @@
     </footer>
     <script>
         async function updateOrderStatus(orderId, orderStatus) {
-            const button = document.getElementById(`status-btn-${orderId}`) //getting the button by id 
+            const button = document.getElementById(`status-btn-${orderId}`) //getting the button by id
 
-            let newStatus ="" 
-            let buttonText = "" 
+            let newStatus =""
+            let buttonText = ""
             //checking for the current order status and updating new status and buttom text accordingly
     if (orderStatus == "received") {
       newStatus = "in progress";
@@ -95,7 +95,7 @@
     } else if (orderStatus == "ready for pick-up") {
       newStatus = "picked up";
       buttonText = "Order completed";
-    } 
+    }
 
             try{
                 const response = await fetch('/update-status', { //fetch request for post
