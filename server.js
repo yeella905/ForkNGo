@@ -15,7 +15,6 @@ app.set("view engine", "ejs");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
-//         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,16 +31,12 @@ app.use(
 );
 
 // Separated Routes for each Resource
-// Note: Feel free to replace the example routes below with your own
-const widgetApiRoutes = require("./routes/widgets-api");
 const recipentsApiRoutes = require("./routes/recipents");
 const foodItemsApiRoutes = require("./routes/menu");
 const ordersApiRoutes = require("./routes/orders");
 
 // Mount all resource routes
-// Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use("/api/widgets", widgetApiRoutes);
 app.use("/api/recipents", recipentsApiRoutes);
 app.use("/api/food_items", foodItemsApiRoutes);
 app.use("/api/orders", ordersApiRoutes);
@@ -54,7 +49,8 @@ app.use("/api/orders", ordersApiRoutes);
 // Fetch food items and render them on the home page
 app.get("/", (req, res) => {
   const user = req.session.user || null;
-  console.log(req.session);
+  console.log(">>>> SESSION")
+  console.log(user);
   foodQueries
     .getFoodItems()
     .then((foodItems) => {
@@ -97,8 +93,8 @@ app.post("/login", async (req, res) => {
       if (user.length == 0) {
         return res.status(401).send("error email or username not found"); //if user provides wrong email or name, display 401 error message
       }
-      req.session.user = { name: user[0].name, is_admin: user[0].is_admin }; //once the user logs in, the session will belong to that user. this is how we are going to access the user in other ejs files
-      if (user[0].is_admin) {
+      req.session.user = { name: user.name, is_admin: user.is_admin, recipient_id: user.id }; //once the user logs in, the session will belong to that user. this is how we are going to access the user in other ejs files
+      if (user.is_admin) {
         res.redirect("/admin");
       } else {
         res.redirect("/");
@@ -108,7 +104,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  //when user logs out, destroy session and remover user data
+  //when user logs out, destroy session and remove user data
   req.session.destroy((error) => {
     if (error) {
       res.status(500).send("failed to logout");
