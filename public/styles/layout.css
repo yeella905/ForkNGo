@@ -31,3 +31,10 @@ html {
 .image_container {
     width: 30em;
 }
+
+.login_container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
