@@ -21,24 +21,25 @@
   </head>
 
   <body>
-    <header>
+      <header>
+      <nav class="main-nav">
       <div class="nav-container">
         <div class="header-content">
           <h1>Welcome to ForkNGo </h1>
         </div>
-
         <div class="user-actions">
             <% if (user) { %>
-              <p class="nav-item nav-link">Logged in as: <%= user.name %></p>
-                <a href="/logout" title="Link to logout">Logout</a>
-              <% } else { %>
-                <a href="/login" title="Link to login page">Login</a>
-            <% } %>
-        </div>
-
+               <span class="user-name">Hi, <%= user.name %></span>
+               <a href="/logout" class="nav-button">Logout</a>
+               <% } else { %>
+                   <a href="/login" class="nav-button">Login</a>
+                   <% } %>
+         </div>
       </div>
-
+    </nav>
+        <div class="order-title">
             <h2>Orders</h2>
+        </div>
               <div class="order-container">
                 <% ordersAdmin.forEach(order => { %>
                     <div class="order">
@@ -72,7 +73,6 @@
                     </div>
                 <% }) %>
               </div>
-      </div>
 
     </header>
 
