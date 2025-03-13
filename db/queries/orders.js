@@ -1,22 +1,6 @@
 require('dotenv').config();
 const db = require('../connection');
-const twilio = require("twilio");
-
-// Sets Twilio env variables
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-
-const client = twilio(accountSid, authToken);
-
-async function createMessage(phoneNumber) {
-  const message = await client.messages.create({
-    body: "ForkNGo has received your order. We'll update you shortly with pickup time.",
-    from: "+17242020885",
-    to: phoneNumber,
-  });
-  console.log(message.body);
-  return message;
-}
+const { sendStatusMessage } = require('../twilio');
 
 const createOrder = function(recipient_id, items) {
   const insertIntoOrders = "INSERT INTO orders (recipients_id, order_status) VALUES ($1, $2) RETURNING *";
@@ -58,7 +42,7 @@ const createOrder = function(recipient_id, items) {
           return Promise.all(insertOrderItemsPromises)
             .then(() => {
               // Pass the recipient's phone number to createMessage
-              return createMessage(recipientPhone)
+              return sendStatusMessage(recipientPhone, "received")
                 .then(messageResult => {
                   return {
                     orderId,
