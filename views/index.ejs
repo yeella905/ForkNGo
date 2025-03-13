@@ -29,7 +29,6 @@
         <div class="header-content">
          <h1>Welcome to ForkNGo</h1>
         </div>
-       
          <div class="user-actions">
              <% if (user) { %>
                 <span class="user-name">Hi, <%= user.name %></span>
@@ -38,7 +37,6 @@
                     <a href="/login" class="nav-button">Login</a>
                     <% } %>
           </div>
-  
     </div>
   </nav>
 
@@ -81,7 +79,7 @@
             <div class="cart-header">
                 <h2>Your Order</h2>
             </div>
-            <div id="cart-content"></div>
+            <div id="cart-content" data-recipient-id="<%= user ? user.recipient_id : 0 %>"></div>
             <div class="cart-actions">
                 <button id="checkout-button" class="checkout-button">Place Order</button>
             </div>
