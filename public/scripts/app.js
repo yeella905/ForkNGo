@@ -37,8 +37,10 @@ const placeOrder = function() {
   const $checkoutButton = $('#checkout-button');
   $checkoutButton.prop('disabled', true).text('Processing');
 
+  let recipient_id = $("#cart-content").data("recipient-id");
+
   let o = {
-    recipient_id: 2,
+    recipient_id: recipient_id,
     items: cart.map(it => {
       return {
         food_items_id : it.food_items_id,
