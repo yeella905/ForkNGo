@@ -23,73 +23,72 @@
   <script defer src="/scripts/app.js"></script>
 </head>
 
-<body>
-  <nav class="main-nav">
-    <div class="nav-container">
+  <body>
+    <nav class="main-nav">
+      <div class="nav-container">
         <div class="header-content">
-         <h1>Welcome to ForkNGo</h1>
+          <h1>Welcome to ForkNGo</h1>
         </div>
-         <div class="user-actions">
-             <% if (user) { %>
-                <span class="user-name">Hi, <%= user.name %></span>
+        <div class="user-actions">
+            <% if (user) { %>
+              <span class="user-name">Hi, <%= user.name %></span>
                 <a href="/logout" class="nav-button">Logout</a>
-                <% } else { %>
-                    <a href="/login" class="nav-button">Login</a>
-                    <% } %>
-          </div>
-    </div>
-  </nav>
+            <% } else { %>
+                <a href="/login" class="nav-button">Login</a>
+            <% } %>
+        </div>
+      </div>
+    </nav>
 
-  <div class="container">
-    <div class="main-content">
-      <main>
-        <h2>Our Menu</h2>
-        <div class="menu">
-          <% foodItems.forEach(foodItem => { %>
-            <div class="food-item" data-food-id="<%= foodItem.id %>">
-              <div class="image_container">
-                <img src="<%= foodItem.image_url %>" alt="<%= foodItem.name %>" class="food_item_image">
-              </div>
-              <div class="food-item-info">
-                <h3 class="food-item-name"><%= foodItem.name %></h3>
-                <p class="food-item-description"><%= foodItem.description %></p>
-                <div class="food-item-price">$<%= foodItem.price %></div>
+    <div class="container">
+      <div class="main-content">
+        <main>
+          <h2>Our Menu</h2>
+          <div class="menu">
+            <% foodItems.forEach(foodItem => { %>
+              <div class="food-item" data-food-id="<%= foodItem.id %>">
+                <div class="image_container">
+                  <img src="<%= foodItem.image_url %>" alt="<%= foodItem.name %>" class="food_item_image">
+                </div>
+                <div class="food-item-info">
+                  <h3 class="food-item-name"><%= foodItem.name %></h3>
+                  <p class="food-item-description"><%= foodItem.description %></p>
+                  <div class="food-item-price">$<%= foodItem.price %></div>
 
-                <div class="food-item-actions">
-                  <textarea class="special-request-input" placeholder="Special requests..."></textarea>
+                  <div class="food-item-actions">
+                    <textarea class="special-request-input" placeholder="Special requests..."></textarea>
+                    <label for="quantity-<%= foodItem.id %>">Quantity:</label>
+                    <input type="number" id="quantity-<%= foodItem.id %>" class="food-item-quantity" value="1" min="1">
 
-                  <label for="quantity-<%= foodItem.id %>">Quantity:</label>
-                  <input type="number" id="quantity-<%= foodItem.id %>" class="food-item-quantity" value="1" min="1">
-
-                  <button class="add-to-cart-btn"
-                    data-food-id="<%= foodItem.id %>"
-                    data-food-name="<%= foodItem.name %>"
-                    data-food-price="<%= foodItem.price %>">
-                    Add to Cart
-                  </button>
+                    <button class="add-to-cart-btn"
+                      data-food-id="<%= foodItem.id %>"
+                      data-food-name="<%= foodItem.name %>"
+                      data-food-price="<%= foodItem.price %>">
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          <% }); %>
-        </div>
-      </main>
-    </div>
-    <div class="cart-position">
+            <% }); %>
+          </div>
+        </main>
+      </div>
+      <div class="cart-position">
         <div class="cart-container">
-            <div class="cart-header">
-                <h2>Your Order</h2>
-            </div>
-            <div id="cart-content" data-recipient-id="<%= user ? user.recipient_id : 0 %>"></div>
-            <div class="cart-actions">
-                <button id="checkout-button" class="checkout-button">Place Order</button>
-            </div>
+          <div class="cart-header">
+            <h2>Your Order</h2>
+          </div>
+          <div id="cart-content" data-recipient-id="<%= user ? user.recipient_id : 0 %>"></div>
+          <div class="cart-actions">
+            <button id="checkout-button" class="checkout-button">Place Order</button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-  <footer>
-    <p>ForkNGo © 2025</p>
-  </footer>
+    <footer>
+        <p>ForkNGo © 2025</p>
+    </footer>
 
-</body>
+  </body>
 
 </html>
