@@ -57,8 +57,6 @@ const setupAddToCartButtons = function() {
   });
 };
 
-
-
 // Update checkout button state based on cart
 const updateCheckoutButtonState = function() {
   const $checkoutButton = $('#checkout-button');
