@@ -4,71 +4,25 @@ $(document).ready(function() {
   // Initialize the cart
   initializeCart();
 
-  // Set up event listeners for add to cart buttons
+  // Set up event listeners
   setupAddToCartButtons();
-
-  // Set up checkout button functionality
-  $('#checkout-button').on('click', placeOrder);
+  setupCheckoutButton();
 
   // Disable Place Order button if cart is empty
   updateCheckoutButtonState();
 });
 
+// Cart State Management
 let cart = [];
 
-// Update checkout button state based on cart
-const updateCheckoutButtonState = function() {
-  const $checkoutButton = $('#checkout-button');
-  if (cart.length === 0) {
-    $checkoutButton.prop('disabled', true);
-  } else {
-    $checkoutButton.prop('disabled', false);
-  }
-};
-
-// Initialize the cart from localStorage
 const initializeCart = function() {
-  // Update the cart UI on page load
   updateCartUI(cart);
 };
 
-const placeOrder = function() {
-  // Disable the button
-  const $checkoutButton = $('#checkout-button');
-  $checkoutButton.prop('disabled', true).text('Processing');
-
-  let recipient_id = $("#cart-content").data("recipient-id");
-
-  let o = {
-    recipient_id: recipient_id,
-    items: cart.map(it => {
-      return {
-        food_items_id : it.food_items_id,
-        quantity : it.quantity,
-        special_request: it.special_request,
-      };
-    }),
-  };
-
-  $.post({
-    url: "/api/orders",
-    data: JSON.stringify(o),
-    contentType: "application/json"
-  }).done(res => {
-    // Show success message
-    const $cartContent = $('#cart-content');
-    $cartContent.prepend('<div class="order-success-message">Order placed successfully!</div>');
-
-    cart = [];
-    updateCartUI(cart);
-
-    // Change button text to "Order Placed" for a while
-    $checkoutButton.text('Order Placed!');
-
-    console.log(res);
-  }).fail(err => {
-    console.log(err);
-  });
+// UI Event Handlers
+// Set up checkout button functionality
+const setupCheckoutButton = function() {
+  $('#checkout-button').on('click', placeOrder);
 };
 
 // Set up data attributes and event listeners for Add to Cart buttons
@@ -102,6 +56,59 @@ const setupAddToCartButtons = function() {
     });
   });
 };
+
+
+
+// Update checkout button state based on cart
+const updateCheckoutButtonState = function() {
+  const $checkoutButton = $('#checkout-button');
+  if (cart.length === 0) {
+    $checkoutButton.prop('disabled', true);
+  } else {
+    $checkoutButton.prop('disabled', false);
+  }
+};
+
+const placeOrder = function() {
+  // Disable the button
+  const $checkoutButton = $('#checkout-button');
+  $checkoutButton.prop('disabled', true).text('Processing');
+
+  let recipient_id = $("#cart-content").data("recipient-id");
+
+  let orderData = {
+    recipient_id: recipient_id,
+    items: cart.map(it => {
+      return {
+        food_items_id : it.food_items_id,
+        quantity : it.quantity,
+        special_request: it.special_request,
+      };
+    }),
+  };
+
+  $.post({
+    url: "/api/orders",
+    data: JSON.stringify(orderData),
+    contentType: "application/json"
+  }).done(res => {
+    // Show success message
+    const $cartContent = $('#cart-content');
+    $cartContent.prepend('<div class="order-success-message">Order placed successfully!</div>');
+
+    cart = [];
+    updateCartUI(cart);
+
+    // Change button text to "Order Placed"
+    $checkoutButton.text('Order Placed!');
+
+    console.log(res);
+  }).fail(err => {
+    console.log(err);
+    alert("There was an error placing your order. Please try again.");
+  });
+};
+
 
 const addToCart = function(id, name, price, image, specialRequest) {
   // Calculate tax (13%)
