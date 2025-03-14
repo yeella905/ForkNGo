@@ -17,7 +17,7 @@ $(document).ready(function() {
 let cart = [];
 
 // Update checkout button state based on cart
-const updateCheckoutButtonState = function () {
+const updateCheckoutButtonState = function() {
   const $checkoutButton = $('#checkout-button');
   if (cart.length === 0) {
     $checkoutButton.prop('disabled', true);
@@ -48,7 +48,7 @@ const placeOrder = function() {
         special_request: it.special_request,
       };
     }),
-  }
+  };
 
   $.post({
     url: "/api/orders",
@@ -75,7 +75,7 @@ const placeOrder = function() {
 const setupAddToCartButtons = function() {
   $('.add-to-cart-btn').each(function() {
     const $foodItem = $(this).closest('.food-item');
-    const foodId = $foodItem.data('food-id')
+    const foodId = $foodItem.data('food-id');
     const foodName = $foodItem.find('.food-item-name').text();
     const foodPrice = parseFloat($foodItem.find('.food-item-price').text().replace('$', ''));
     const foodImage = $foodItem.find('img').attr('src');
@@ -102,16 +102,6 @@ const setupAddToCartButtons = function() {
     });
   });
 };
-
-/**
- * Add food item to the cart
- * @param {number} id - Food item ID
- * @param {string} name - Food item name
- * @param {number} price - Food item price
- * @param {string} image - Food item image URL
- * @param {string} specialRequest - Special request for this item
- * @param {number} quantity - The selected quantity of the food item
- */
 
 const addToCart = function(id, name, price, image, specialRequest) {
   // Calculate tax (13%)
@@ -181,4 +171,4 @@ const updateCartUI = function(cart) {
 
   // Update checkout(Place order) button state
   updateCheckoutButtonState();
-}
+};
