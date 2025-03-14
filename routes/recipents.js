@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-const database = require("../db/queries/recipents");
+const database = require("../db/queries/recipients");
 
 router.get("/", (req, res) => {
   res.render("users");
@@ -26,6 +26,6 @@ router.get("/login", (req, res) => {
       res.send(user);
     })
     .catch((e) => res.send(e));
-}); 
+});
 
 module.exports = router;

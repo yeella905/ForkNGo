@@ -4,12 +4,13 @@ require('dotenv').config();
 // Web server config
 const express = require('express');
 const morgan = require('morgan');
-const session = require("express-session") //cookies parser
+const session = require("express-session"); //cookies parser
 const PORT = process.env.PORT || 8080;
 const app = express();
 
 const foodQueries = require("./db/queries/food_items");
-const recipentQueries = require("./db/queries/recipents");
+const orderQueries = require("./db/queries/orders");
+const recipientQueries = require("./db/queries/recipients");
 const orders_admin = require("./db/queries/orders_admin");
 app.set("view engine", "ejs");
 
@@ -31,13 +32,13 @@ app.use(
 );
 
 // Separated Routes for each Resource
-const recipentsApiRoutes = require("./routes/recipents");
+const recipientsApiRoutes = require("./routes/recipients");
 const foodItemsApiRoutes = require("./routes/menu");
 const ordersApiRoutes = require("./routes/orders");
 
 // Mount all resource routes
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use("/api/recipents", recipentsApiRoutes);
+app.use("/api/recipients", recipientsApiRoutes);
 app.use("/api/food_items", foodItemsApiRoutes);
 app.use("/api/orders", ordersApiRoutes);
 // Note: mount other resources here, using the same pattern above
@@ -49,7 +50,7 @@ app.use("/api/orders", ordersApiRoutes);
 // Fetch food items and render them on the home page
 app.get("/", (req, res) => {
   const user = req.session.user || null;
-  console.log(">>>> SESSION")
+  console.log(">>>> SESSION");
   console.log(user);
   foodQueries
     .getFoodItems()
@@ -66,7 +67,7 @@ app.get('/orders', (req, res) => {
   const user = req.session.user;
 
   // If user is not logged in just show the cart
-  if(!user) {
+  if (!user) {
     return res.render('orders', { user: null, orders: [] });
   }
 
@@ -85,12 +86,12 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", async(req, res) => {
   // Fetch user from the database
-  recipentQueries
+  recipientQueries
     .getUser(req.body)
     .then((user) => {
-      if (user.length == 0) {
+      if (user.length === 0) {
         return res.status(401).send("error email or username not found"); //if user provides wrong email or name, display 401 error message
       }
       req.session.user = { name: user.name, is_admin: user.is_admin, recipient_id: user.id }; //once the user logs in, the session will belong to that user. this is how we are going to access the user in other ejs files
