@@ -162,7 +162,7 @@ const cartContentTemplate = `
 
 // Update the cart UI
 const updateCartUI = function(cart) {
-  const $cartContent = $('#cart-content');
+  const $cartContent = $("#cart-content");
 
   // Calculate the totals
   const tax_rate = 0.13;
@@ -171,11 +171,13 @@ const updateCartUI = function(cart) {
 
   // Clear current cart items
   $cartContent.empty();
-  $cartContent.html(ejs.render(cartContentTemplate, {
-    items: cart,
-    subtotal: subtotal,
-    taxtotal: taxtotal
-  }));
+  $cartContent.html(
+    ejs.render(cartContentTemplate, {
+      items: cart,
+      subtotal: subtotal,
+      taxtotal: taxtotal,
+    })
+  );
 
   // Update checkout(Place order) button state
   updateCheckoutButtonState();
