@@ -1,16 +1,7 @@
-LHL Node Skeleton
+ About ForkNGo
 =========
-
-## Project Setup
-
-The following steps are only for _one_ of the group members to perform.
-
-1. Create your own copy of this repo using the `Use This Template` button, ideally using the name of your project. The repo should be marked Public
-2. Verify that the skeleton code now shows up in your repo on GitHub, you should be automatically redirected
-3. Clone your copy of the repo to your dev machine
-4. Add your team members as collaborators to the project so that they can push to this repo
-5. Let your team members know the repo URL so that they use the same repo (they should _not_ create a copy/fork of this repo since that will add additional workflow complexity to the project)
-
+ForkNGO is a small food order/pick-up app designed for a single restaurant/establishment. 
+This restaurant web application has 3 routes. A login page that redirects to the admin page or the customer page depending on the status of the user. This application has an SMS feature so that when the order status changes the customer will receive notifications for it.
 
 ## Getting Started
 
@@ -24,7 +15,10 @@ The following steps are only for _one_ of the group members to perform.
   - Check the db folder to see what gets created and seeded in the DB
 5. Run the server: `npm run local`  
   - Note: nodemon is used, so you should not have to restart your server
-6. Visit [`http://localhost:8080/`](http://localhost:8080/)
+6. Visit [`http://localhost:8080/login`](http://localhost:8080/login) to login
+7. Visit [`http://localhost:8080/`](http://localhost:8080/) to see the main page which contains all the menu along with the cart feature to place order.
+8. Visit [`http://localhost:8080/admin`](http://localhost:8080/) to see the admin page which contains all the food orders and buttoms to change the food orser status. After each status sms message will be made after every change. Button will be disabled once order has been completed.
+
 
 ## Warnings & Tips
 
@@ -41,3 +35,13 @@ The following steps are only for _one_ of the group members to perform.
 - Node 14.x or above
 - NPM 6.x or above
 - PG 6.x
+- twilio 5.5 or above
+- express-session 1.18X or above
+
+## 📷 Gallery
+!["screenshot of main page"](public/imgs/main_page.png)
+!["Screenshot of admin page"](public/imgs/admin.png)
+
+## Credit/Acknowledgment
+
+This food ordering/pick-up application is a collaborative project between Soseh Cyousefian and Ella Ye.
