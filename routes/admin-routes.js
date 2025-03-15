@@ -15,36 +15,24 @@ const isAdmin = (req, res, next) => {
 // Apply admin check to all routes in this router
 router.use(isAdmin);
 
+const statusText = {
+  "received" : "Mark as in progress",
+  "in progress" : "Mark as ready for pick-up",
+  "ready for pick-up": "Mark as picked up",
+  "picked up" : "Picked up"
+};
+
 router.get("/", (req, res) => {
   const user = req.session.user;
   orders_admin
     .getAdminOrders()
     .then((ordersAdmin) => {
       console.log(ordersAdmin);
-      res.render("admin", { ordersAdmin, user });
+      res.render("admin", { ordersAdmin, user, statusText });
     })
     .catch((err) => {
       console.error("Error fetching order:", err);
       res.status(500).send("Error fetching order");
-    });
-});
-
-router.post("/update-status", (req, res) => {
-  const { orderId, newStatus } = req.body;
-
-  if (!orderId || !newStatus) {
-    return res.status(400).send("Missing orderId or newStatus");
-  }
-
-  orders_admin
-    .updateOrder(orderId, newStatus)
-    .then((response) => {
-      console.log("Update response:", response);
-      res.json({ response });
-    })
-    .catch((err) => {
-      console.error("Error updating order:", err);
-      res.status(500).send("Error updating order");
     });
 });
 
