@@ -12,7 +12,6 @@ const createOrder = function(recipient_id, items) {
   return db.query(insertIntoOrders, insertIntoOrdersParams)
     .then(orderResult => {
       console.log(orderResult);
-      console.log(orderResult.rows);
 
       // Get the newly created order id
       const orderId = orderResult.rows[0].id;
@@ -121,8 +120,51 @@ const getOrders = function(recipients_id) {
     });
 };
 
+const updateOrder = (orderId, status) => {
+  // First get the recipient's phone number
+  const getRecipientQuery = `
+    SELECT recipients.phone
+    FROM orders
+    JOIN recipients ON orders.recipients_id = recipients.id
+    WHERE orders.id = $1
+    `;
+  return db
+    .query(getRecipientQuery, [orderId])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        throw new Error(`Order with ID ${orderId} not found`);
+      }
+
+      const recipientPhone = result.rows[0].phone;
+
+      // Then update the order status
+      const updateQuery = `UPDATE orders SET order_status = $2
+      WHERE id = $1`;
+      const values = [orderId, status];
+      return db
+        .query(updateQuery, values)
+        .then(() => {
+          // Send SMS notification after updating the order
+          return sendStatusMessage(recipientPhone, status)
+            .then(messageResult => {
+              console.log(`SMS notification sent for order ${orderId} with status ${status}`);
+              return {
+                success: true,
+                message: "Order status updated successfully",
+                orderId,
+                messageStatus: messageResult.status
+              };
+            });
+        });
+    })
+    .catch((error) => {
+      console.error("Error updating order status:", error);
+      return { success: false, message: "Internal server error" };
+    });
+};
 
 module.exports = {
   createOrder,
+  updateOrder,
   getOrders
 };
