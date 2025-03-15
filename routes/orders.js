@@ -24,4 +24,18 @@ router.post('/', (req, res) => {
   });
 });
 
+router.put('/:id', (req, res) => {
+  const orderId = req.params.id;
+  const { status } = req.body;
+  console.log(`id: ${orderId}; status: ${status}`);
+
+  orderQueries.updateOrder(
+    orderId, status
+  ).then(r => {
+    res.status(201).json({ id: orderId });
+  }).catch(err => {
+    res.status(500).json({ message: "failed to create order", details: err.message});
+  });
+});
+
 module.exports = router;
