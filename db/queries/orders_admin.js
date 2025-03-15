@@ -1,5 +1,5 @@
 const db = require("../connection");
-const twilio = require("../twilio");
+const { sendStatusMessage } = require("../twilio");
 
 // Get all orders with recipient and order item details
 const getAdminOrders = () => {
@@ -27,19 +27,4 @@ const getAdminOrders = () => {
     });
 };
 
-const updateOrder = (orderId, status) => {
-  const querystring = `UPDATE orders SET order_status = $2
-      WHERE id = $1`;
-  const values = [orderId, status];
-  return db
-    .query(querystring, values)
-    .then(() => {
-      return { success: true, message: "Order status updated successfully" };
-    })
-    .catch((error) => {
-      console.error("Error updating order status:", error);
-      return { success: false, message: "Internal server error" };
-    });
-};
-
-module.exports = { getAdminOrders, updateOrder };
+module.exports = { getAdminOrders };
